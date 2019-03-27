@@ -29,7 +29,7 @@ gulp.task('browser-sync', function() { // Создаем таск browser-sync
 });
 
 gulp.task('scripts', function() {
-	return gulp.src([ // Берем все необходимые библиотеки
+	return gulp.src([
 		'app/libs/jquery/dist/jquery.min.js' // Берем jQuery
 		])
 		.pipe(concat('libs.min.js')) // Собираем их в кучу в новом файле libs.min.js
@@ -42,12 +42,12 @@ gulp.task('code', function() {
 	.pipe(browserSync.reload({ stream: true }))
 });
 gulp.task('concats', function() {
-	return gulp.src([ // Берем все необходимые библиотеки
+	return gulp.src([ // Берем все необходимые файлы
 		'app/css/icomoon.css',
 		'app/css/main.css',
 		'app/css/media.css'
 		])
-		.pipe(concat('main.min.css')) // Собираем их в кучу в новом файле libs.min.js
+		.pipe(concat('main.min.css')) // Собираем их в кучу в новом файле main.min.css
 		.pipe(cssnano())// Сжимаем Сss файл
 		.pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
 });
