@@ -41,19 +41,21 @@ gulp.task('code', function() {
 	return gulp.src('app/*.html')
 	.pipe(browserSync.reload({ stream: true }))
 });
+gulp.task('css', function() {
+	return gulp.src('app/css/*.min.css')
+	.pipe(browserSync.reload({ stream: true }))
+});
 gulp.task('concats', function() {
 	return gulp.src([ // Берем все необходимые файлы
-		'app/css/icomoon.css',
-		'app/css/main.css',
-		'app/css/media.css'
+		'app/css/main.css'
 		])
 		.pipe(concat('main.min.css')) // Собираем их в кучу в новом файле main.min.css
 		.pipe(cssnano())// Сжимаем Сss файл
 		.pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
 });
 
-gulp.task('css-libs', function() {
-	return gulp.src('app/css/libs.css') // Выбираем файл для минификации
+gulp.task('css-min', function() {
+	return gulp.src('app/css/main.css') // Выбираем файл для минификации
 		.pipe(cssnano()) // Сжимаем
 		.pipe(rename({suffix: '.min'})) // Добавляем суффикс .min
 		.pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
@@ -99,8 +101,10 @@ gulp.task('clear', function (callback) {
 
 gulp.task('watch', function() {
 	gulp.watch('app/scss/**/*.scss', gulp.parallel('scss')); // Наблюдение за scss файлами
+	gulp.watch('app/css/main.css', gulp.parallel('css-min'));
+	gulp.watch('app/css/*.min.css', gulp.parallel('css'));
 	gulp.watch('app/*.html', gulp.parallel('code')); // Наблюдение за HTML файлами в корне проекта
-	gulp.watch(['app/js/common.js', 'app/libs/**/*.js'], gulp.parallel('scripts')); // Наблюдение за главным JS файлом и за библиотеками
+	gulp.watch(['app/js/main.js', 'app/libs/**/*.js'], gulp.parallel('scripts')); // Наблюдение за главным JS файлом и за библиотеками
 });
-gulp.task('default', gulp.parallel('scss', 'scripts', 'browser-sync', 'watch'));
+gulp.task('default', gulp.parallel('scss', 'scripts', 'browser-sync', 'watch','css-min'));
 gulp.task('build', gulp.parallel('prebuild', 'clean', 'img', 'scss', 'scripts'));
