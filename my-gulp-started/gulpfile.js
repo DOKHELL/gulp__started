@@ -102,5 +102,5 @@ gulp.task('watch', function() {
 	gulp.watch('app/*.html', gulp.parallel('code')); // Наблюдение за HTML файлами в корне проекта
 	gulp.watch(['app/js/common.js', 'app/libs/**/*.js'], gulp.parallel('scripts')); // Наблюдение за главным JS файлом и за библиотеками
 });
-gulp.task('default', gulp.parallel('concats','css-libs', 'scss', 'scripts', 'browser-sync', 'watch'));
+gulp.task('default', gulp.parallel('scss', 'scripts', 'browser-sync', 'watch'));
 gulp.task('build', gulp.parallel('prebuild', 'clean', 'img', 'scss', 'scripts'));
